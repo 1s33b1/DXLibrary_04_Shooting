@@ -1,7 +1,5 @@
 #include "DxLib.h"
 #include "../GameParameter.h"
-#include "Block.h"
-#include "Ball.h"
 #include "Player.h"
 
 /// <summary>
@@ -40,4 +38,3 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	DxLib_End();				// ＤＸライブラリ使用の終了処理
 	return 0;				// ソフトの終了 
 }
-

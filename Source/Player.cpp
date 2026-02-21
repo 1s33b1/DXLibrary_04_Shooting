@@ -1,15 +1,16 @@
+#include "DxLib.h"
 #include "Player.h"
 #include "../GameParameter.h"
-#include "DxLib.h"
 #include "Bullet.h"
+#include <vector>
 
 // コンストラクタ
 Player::Player()
 {
 	playerPosx = 270;	playerPosy = 450;
-	color = GetColor(255, 255, 255);
 	moveSpeed = 8;
 	playerGraph = LoadGraph("Graph\\Combat2.png"); // メモリにプレイヤーの画像を読み込ませる
+	pBullet[bulletLimit];
 }
 
 // デストラクタ
@@ -36,7 +37,12 @@ void Player::Update()
 	}
 
 	if (CheckHitKey(KEY_INPUT_SPACE)) {
-		
+		// ポインタ配列内の空いているところを探索する
+		for (int i = 0; i < bulletLimit; i++) {
+			if (pBullet[i] == nullptr) {
+				pBullet[i] = new Bullet();
+			}
+		}
 	}
 }
 

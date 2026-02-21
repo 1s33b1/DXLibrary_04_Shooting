@@ -1,5 +1,5 @@
 #pragma once
-#include "Ball.h"
+#include "Bullet.h"
 class Player
 {
 public:
@@ -7,9 +7,10 @@ public:
 	~Player();
 	void Update();
 	void Draw();
-	int playerPosx, playerPosy;
+	int playerPosx, playerPosy; // X,Y座標
 private:
-	int moveSpeed;
-	int color;
-	int playerGraph;
+	int moveSpeed; // プレイヤーの移動速度
+	int playerGraph; // プレイヤーの画像
+	static const int bulletLimit = 10; // 画面上に出せる弾丸の数
+	Bullet pBullet[]; // 弾丸のポインタ
 };
