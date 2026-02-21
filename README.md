@@ -1,1 +1,2 @@
 # DXLibrary_04_Shooting
+DXライブラリを使用した2Dシューティングゲーム。
