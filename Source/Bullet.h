@@ -21,12 +21,3 @@ private:
 	int bulletSpeed; // 弾丸のスピード
 };
 
-class EnemyBullet
-{
-public:
-	EnemyBullet();
-	~EnemyBullet();
-		
-private:
-
-};

@@ -9,6 +9,7 @@ public:
 	void Draw();
 	int GetPosX() const { return playerPosx; }
 	int GetPosY() const { return playerPosy; }
+	int GetBulletLimit() const { return bulletLimit; }
 private:
 	int playerPosx, playerPosy; // X,Y座標
 	int moveSpeed; // プレイヤーの移動速度

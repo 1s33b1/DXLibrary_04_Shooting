@@ -2,7 +2,6 @@
 #include "Player.h"
 #include "../GameParameter.h"
 #include "Bullet.h"
-#include <vector>
 
 // コンストラクタ
 Player::Player()
@@ -12,7 +11,7 @@ Player::Player()
 	playerGraph = LoadGraph("Graph\\Combat2.png"); // メモリにプレイヤーの画像を読み込ませる
 
 	// 実行してすぐは配列の中身をすべて空にする
-	for (int i = 0; i < bulletLimit; i++) {
+	for (int i = 0; i < BulletSettings::bulletLimit; i++) {
 		pBullet[i] = nullptr;
 	}
 }
@@ -22,7 +21,7 @@ Player::~Player()
 {
 	DeleteGraph(playerGraph);
 
-	for (int i = 0; i < bulletLimit; i++) {
+	for (int i = 0; i < BulletSettings::bulletLimit; i++) {
 		delete pBullet[i];
 	}
 }
@@ -46,7 +45,7 @@ void Player::Update()
 
 	if (CheckHitKey(KEY_INPUT_SPACE)) {
 		// ポインタ配列内の空いているところを探索する
-		for (int i = 0; i < bulletLimit; i++) {
+		for (int i = 0; i < BulletSettings::bulletLimit; i++) {
 			if (pBullet[i] == nullptr) {
 				int graphSizex, graphSizey;
 				GetGraphSize(playerGraph, &graphSizex, &graphSizey); // プレイヤー画像のサイズを取得
@@ -57,7 +56,7 @@ void Player::Update()
 	}
 
 	// 配列の中に弾丸の更新処理と、画面外に出た時の処理
-	for (int i = 0; i < bulletLimit; i++) {
+	for (int i = 0; i < BulletSettings::bulletLimit; i++) {
 		if (pBullet[i] != nullptr) {
 			pBullet[i]->Update(); // 更新処理をさせる
 
@@ -76,7 +75,7 @@ void Player::Draw()
 	DrawGraph(playerPosx, playerPosy, playerGraph, FALSE); // プレイヤーの描画
 
 	// 弾丸の描画
-	for (int i = 0; i < bulletLimit; i++) {
+	for (int i = 0; i < BulletSettings::bulletLimit; i++) {
 		if (pBullet[i] != nullptr) {
 			pBullet[i]->Draw();
 		}

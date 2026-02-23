@@ -2,6 +2,7 @@
 #include "../GameParameter.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "Bullet.h"
 
 /// <summary>
 /// シューティング
@@ -22,6 +23,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	Enemy* pEnemy;
 	pPlayer = new Player();
 	pEnemy = new Enemy();
+	Bullet* pBullet[BulletSettings::bulletLimit];
+
+	// 初期化の時に配列のすべての中身を空にする
+	for (int i = 0; i < BulletSettings::bulletLimit; i++) {
+		pBullet[i] = nullptr;
+	}
 
 
 	// メインのループ処理
@@ -33,14 +40,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		pPlayer->Draw();
 		pPlayer->Update();
 		pEnemy->Draw();
-		pEnemy->Update();
+		pEnemy->Update(pBullet);
 
 		WaitTimer(50); // 待機時間
 		ScreenFlip();    // 画面を更新して、少し休む	
 	}
 
-	///------------------------------------------------------
+
+	///----------------------------------------------------------------
 	/// 終了処理
+	for (int i = 0; i < BulletSettings::bulletLimit; i++) {
+		delete pBullet[i];
+	}
+	delete pEnemy;
 	delete pPlayer;
 	DxLib_End();				// ＤＸライブラリ使用の終了処理
 	return 0;				// ソフトの終了 
