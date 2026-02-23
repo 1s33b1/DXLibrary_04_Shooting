@@ -3,29 +3,28 @@
 #include "DxLib.h"
 
 // コンストラクタ
-Bullet::Bullet()
+// 引数：弾丸を描画し始めるときの初期位置をプレイヤーの位置から取得
+Bullet::Bullet(int x, int y)
+	:bulletPosx(x),bulletPosy(y),
+	bulletRadius(4),
+	bulletSpeed(10),
+	isScreen(true)
 {
-	graphBullet = LoadGraph("Bullet.png");
-	bulletPosx = 320; bulletPosy = 240;
-	bulletSpeed = 10;
-	isScreen = true;
-	Draw(); // 描画をする
+	color = GetColor(0, 255, 0); // 緑
 }
 
 // デストラクタ
 Bullet::~Bullet()
 {
-	DeleteGraph(graphBullet);
 }
 
 // 更新処理
 void Bullet::Update()
 {
-	bulletPosy -= bulletSpeed;
+	bulletPosy -= bulletSpeed; // 上方向へ進む
 
 	if (bulletPosy < -50) {
-		// ここで弾丸を破壊したい
-		//delete this;
+		isScreen = false; // 画面外に出たときフラグを降ろす
 	}
 
 	// 画面内に存在しているときはフラグを立てておく
@@ -36,14 +35,10 @@ void Bullet::Update()
 	{
 		isScreen = true;
 	}
-
-	if (isScreen) {
-
-	}
 }
 
 // 描画処理
 void Bullet::Draw()
 {
-	DrawGraph(bulletPosx, bulletPosy, graphBullet, FALSE);
+	DrawCircle(bulletPosx, bulletPosy,bulletRadius, color, TRUE);
 }

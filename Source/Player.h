@@ -7,10 +7,12 @@ public:
 	~Player();
 	void Update();
 	void Draw();
-	int playerPosx, playerPosy; // X,Y座標
+	int GetPosX() const { return playerPosx; }
+	int GetPosY() const { return playerPosy; }
 private:
+	int playerPosx, playerPosy; // X,Y座標
 	int moveSpeed; // プレイヤーの移動速度
 	int playerGraph; // プレイヤーの画像
 	static const int bulletLimit = 10; // 画面上に出せる弾丸の数
-	Bullet pBullet[]; // 弾丸のポインタ
+	Bullet* pBullet[bulletLimit]; // 弾丸のポインタ
 };

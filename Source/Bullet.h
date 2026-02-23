@@ -2,15 +2,31 @@
 class Bullet
 {
 public:
-	Bullet();
+	Bullet(int x, int y);
 	~Bullet();
 	// 更新処理
 	void Update();
 	// 描画処理
 	void Draw();
-private:
-	int graphBullet; // 弾丸の画像
-	int bulletPosx, bulletPosy; // 弾丸の座標
-	int bulletSpeed; // 弾丸のスピード
 	bool isScreen; // true:画面内にいてるとき
+
+	int GetPosX() const { return bulletPosx; }
+	int GetPosY() const { return bulletPosy; }
+	int GetRadius() const { return bulletRadius; }
+private:
+	//int graphBullet; // 弾丸の画像
+	int color;
+	int bulletPosx, bulletPosy; // 弾丸の座標
+	int bulletRadius; // 弾丸の半径
+	int bulletSpeed; // 弾丸のスピード
+};
+
+class EnemyBullet
+{
+public:
+	EnemyBullet();
+	~EnemyBullet();
+		
+private:
+
 };

@@ -1,6 +1,7 @@
 #include "DxLib.h"
 #include "../GameParameter.h"
 #include "Player.h"
+#include "Enemy.h"
 
 /// <summary>
 /// シューティング
@@ -11,13 +12,17 @@
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	// DXライブラリ初期化処理
-	if (DxLib_Init() == -1) return -1;
 	SetGraphMode(ScreenSettings::screenWidth, ScreenSettings::screenHeight, 30); // 画面のサイズを決定
+	//SetWaitVSyncFlag(TRUE); // これを付けるとヌルヌルになりすぎて動作が何もかも早くなるからいったんなしで。
+	if (DxLib_Init() == -1) return -1;
 	SetDrawScreen(DX_SCREEN_BACK);
 	SetMouseDispFlag(FALSE); // マウスカーソルを表示
 
 	Player* pPlayer;
+	Enemy* pEnemy;
 	pPlayer = new Player();
+	pEnemy = new Enemy();
+
 
 	// メインのループ処理
 	//----------------------------------------------------------------
@@ -27,6 +32,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		pPlayer->Draw();
 		pPlayer->Update();
+		pEnemy->Draw();
+		pEnemy->Update();
 
 		WaitTimer(50); // 待機時間
 		ScreenFlip();    // 画面を更新して、少し休む	
