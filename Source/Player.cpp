@@ -12,7 +12,7 @@ Player::Player()
 
 	// 実行してすぐは配列の中身をすべて空にする
 	for (int i = 0; i < BulletSettings::bulletLimit; i++) {
-		pBullet[i] = nullptr;
+		bullets.push_back(nullptr);
 	}
 }
 
@@ -21,8 +21,8 @@ Player::~Player()
 {
 	DeleteGraph(playerGraph);
 
-	for (int i = 0; i < BulletSettings::bulletLimit; i++) {
-		delete pBullet[i];
+	for(Bullet* b : bullets) {
+		delete b;
 	}
 }
 
@@ -45,26 +45,25 @@ void Player::Update()
 
 	if (CheckHitKey(KEY_INPUT_SPACE)) {
 		// ポインタ配列内の空いているところを探索する
-		for (int i = 0; i < BulletSettings::bulletLimit; i++) {
-			if (pBullet[i] == nullptr) {
+		for(auto b : bullets) {
+			if (b == nullptr) {
 				int graphSizex, graphSizey;
 				GetGraphSize(playerGraph, &graphSizex, &graphSizey); // プレイヤー画像のサイズを取得
-				pBullet[i] = new Bullet(playerPosx + graphSizex / 2, playerPosy - 20 + graphSizey / 2);
+				bullets.push_back(new Bullet(playerPosx + graphSizex / 2, playerPosy - 20 + graphSizey / 2));
 				break; // 一発作ったらループを強制的に終わらせる
 			}
 		}
 	}
 
 	// 配列の中に弾丸の更新処理と、画面外に出た時の処理
-	for (int i = 0; i < BulletSettings::bulletLimit; i++) {
-		if (pBullet[i] != nullptr) {
-			pBullet[i]->Update(); // 更新処理をさせる
-
-			// 配列の中に弾丸の更新処理と、画面外に出た時の処理
-			if (pBullet[i]->isScreen == false) {
-				delete pBullet[i];
-				pBullet[i] = nullptr; // インスタンスを削除したときにポインタ配列の中を削除する
-			}
+	for (auto b = bullets.begin(); b != bullets.end();) {
+		(*b)->Update();
+		if (!(*b)->isScreen) {
+			delete (*b); // メモリを解放
+			b = bullets.erase(b); // 配列から削除
+		}
+		else {
+			++b; // 次の弾丸へ
 		}
 	}
 }
@@ -75,9 +74,9 @@ void Player::Draw()
 	DrawGraph(playerPosx, playerPosy, playerGraph, FALSE); // プレイヤーの描画
 
 	// 弾丸の描画
-	for (int i = 0; i < BulletSettings::bulletLimit; i++) {
-		if (pBullet[i] != nullptr) {
-			pBullet[i]->Draw();
+	for(Bullet* b : bullets) {
+		if (b != nullptr) {
+			b->Draw();
 		}
 	}
 }

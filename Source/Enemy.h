@@ -5,10 +5,12 @@ class Bullet;
 class Enemy
 {
 public:
-	Enemy();
+	Enemy(int x,int y);
 	~Enemy();
 	void Update(Bullet* pBullet[]);
 	void Draw();
+	void CheckCollision(Bullet* pBullet[]);
+	bool GetIsHit() { return isHit; }
 private:
 	int enemyPosx, enemyPosy; // à íuç¿ïW
 	int enemyPosLimit; // ìGÇÃí‚é~à íu

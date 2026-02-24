@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 #include "Bullet.h"
 class Player
 {
@@ -17,4 +18,5 @@ private:
 	int playerGraph; // プレイヤーの画像
 	static const int bulletLimit = 10; // 画面上に出せる弾丸の数
 	Bullet* pBullet[bulletLimit]; // 弾丸のポインタ
+	std::vector<Bullet*> bullets; // 弾丸のベクター配列
 };

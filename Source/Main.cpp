@@ -1,7 +1,7 @@
 #include "DxLib.h"
 #include "../GameParameter.h"
 #include "Player.h"
-#include "Enemy.h"
+#include "EnemyManager.h"
 #include "Bullet.h"
 
 /// <summary>
@@ -19,10 +19,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	SetDrawScreen(DX_SCREEN_BACK);
 	SetMouseDispFlag(FALSE); // マウスカーソルを表示
 
-	Player* pPlayer;
-	Enemy* pEnemy;
-	pPlayer = new Player();
-	pEnemy = new Enemy();
+	Player* pPlayer = new Player();
+	EnemyManager* pEnemyManager = new EnemyManager();
 
 	// メインのループ処理
 	//----------------------------------------------------------------
@@ -30,11 +28,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	{
 		ClearDrawScreen(); // 画面をまっさらに
 
-		pPlayer->Draw();
 		pPlayer->Update();
-		pEnemy->Draw();
-		pEnemy->Update(pPlayer->GetBulletArray()); // Main.cppで宣言したBulletのポインタではなくプレイヤーのほうで作ったポインタを使用する
-
+		pEnemyManager->Update(pPlayer->GetBulletArray()); // 敵全員分の更新処理
+		pPlayer->Draw();
+		pEnemyManager->Draw(); // 敵全員分の描画処理
+		
 		WaitTimer(50); // 待機時間
 		ScreenFlip();    // 画面を更新して、少し休む	
 	}
@@ -42,7 +40,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	///----------------------------------------------------------------
 	/// 終了処理
-	delete pEnemy;
+	delete pEnemyManager;
 	delete pPlayer;
 	DxLib_End();				// ＤＸライブラリ使用の終了処理
 	return 0;				// ソフトの終了 
