@@ -10,6 +10,7 @@ public:
 	int GetPosX() const { return playerPosx; }
 	int GetPosY() const { return playerPosy; }
 	int GetBulletLimit() const { return bulletLimit; }
+	Bullet** GetBulletArray() { return pBullet; }
 private:
 	int playerPosx, playerPosy; // X,Y座標
 	int moveSpeed; // プレイヤーの移動速度
