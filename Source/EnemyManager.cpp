@@ -21,10 +21,10 @@ EnemyManager::~EnemyManager()
 }
 
 // XVˆ—
-void EnemyManager::Update(Bullet* pBullet[])
+void EnemyManager::Update(const std::vector<Bullet*>& playerBullets)
 {
 	for (auto it = enemies.begin(); it != enemies.end();) {
-		(*it)->Update(pBullet);
+		(*it)->Update(playerBullets);
 
 		if ((*it)->GetIsHit()) {
 			delete	(*it); // ƒƒ‚ƒŠ‚ğ‰ğ•ú
@@ -35,7 +35,7 @@ void EnemyManager::Update(Bullet* pBullet[])
 		}
 	}
 	for (Enemy* e : enemies) {
-		e->Update(pBullet);
+		e->CheckCollision(playerBullets);
 	}
 }
 

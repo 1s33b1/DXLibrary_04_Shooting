@@ -1,5 +1,5 @@
 #pragma once
-
+#include <vector>
 class Bullet;
 
 class Enemy
@@ -9,7 +9,7 @@ public:
 	~Enemy();
 	void Update(Bullet* pBullet[]);
 	void Draw();
-	void CheckCollision(Bullet* pBullet[]);
+	void CheckCollision(const std::vector<Bullet*>& playerBullets);
 	bool GetIsHit() { return isHit; }
 private:
 	int enemyPosx, enemyPosy; // à íuç¿ïW

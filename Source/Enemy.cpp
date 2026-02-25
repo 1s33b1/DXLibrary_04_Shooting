@@ -1,6 +1,7 @@
 #include "Enemy.h"
 #include "Bullet.h"
 #include "DxLib.h"
+#include <vector>
 #include "../GameParameter.h"
 
 ///--------------------------------------------------------
@@ -50,21 +51,36 @@ void Enemy::Draw()
 }
 
 // “–‚½‚è”»’èƒƒ\ƒbƒh
-void Enemy::CheckCollision(Bullet* pBullet[]) 
+void Enemy::CheckCollision(const std::vector<Bullet*>& playerBullets)
 {
-	for (int i = 0; i < BulletSettings::bulletLimit; i++) {
-		if (pBullet[i] != nullptr) {
-			int distanceX = pBullet[i]->GetPosX() - enemyPosx;
-			int distanceY = pBullet[i]->GetPosY() - enemyPosy;
+	// ”z—ñ‚Ì’†‚É’eŠÛ‚Ì“–‚½‚è”»’è‚Ìˆ—
+	for(auto it = playerBullets.begin(); it != playerBullets.end(); ++it) {
+		Bullet* bullet = *it;
+		if (bullet != nullptr) {
+			int distanceX = bullet->GetPosX() - enemyPosx;
+			int distanceY = bullet->GetPosY() - enemyPosy;
 			int Distance = (distanceX * distanceX) + (distanceY * distanceY);
-			int hitDistance = pBullet[i]->GetRadius() + enemyRadius;
-
+			int hitDistance = bullet->GetRadius() + enemyRadius;
 			// O•½•û‚Ì’è—‚Å“–‚½‚è”»’è‚ÌŒvZ‚ğs‚¤
 			if (Distance < (hitDistance * hitDistance)) {
 				isHit = true;
-				pBullet[i]->isScreen = false; // ’eŠÛ‚ª“G‚É“–‚½‚Á‚½‚É“–‚½‚Á‚½’eŠÛ‚ğ”ñ•\¦‚É‚·‚é
+				bullet->isScreen = false; // ’eŠÛ‚ª“G‚É“–‚½‚Á‚½‚É“–‚½‚Á‚½’eŠÛ‚ğ”ñ•\¦‚É‚·‚é
 			}
 		}
 	}
+	//for (int i = 0; i < BulletSettings::bulletLimit; i++) {
+	//	if (pBullet[i] != nullptr) {
+	//		int distanceX = pBullet[i]->GetPosX() - enemyPosx;
+	//		int distanceY = pBullet[i]->GetPosY() - enemyPosy;
+	//		int Distance = (distanceX * distanceX) + (distanceY * distanceY);
+	//		int hitDistance = pBullet[i]->GetRadius() + enemyRadius;
+
+	//		// O•½•û‚Ì’è—‚Å“–‚½‚è”»’è‚ÌŒvZ‚ğs‚¤
+	//		if (Distance < (hitDistance * hitDistance)) {
+	//			isHit = true;
+	//			pBullet[i]->isScreen = false; // ’eŠÛ‚ª“G‚É“–‚½‚Á‚½‚É“–‚½‚Á‚½’eŠÛ‚ğ”ñ•\¦‚É‚·‚é
+	//		}
+	//	}
+	//}
 
 }

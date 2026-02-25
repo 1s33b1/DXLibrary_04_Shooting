@@ -44,26 +44,26 @@ void Player::Update()
 	}
 
 	if (CheckHitKey(KEY_INPUT_SPACE)) {
-		// ポインタ配列内の空いているところを探索する
-		for(auto b : bullets) {
-			if (b == nullptr) {
-				int graphSizex, graphSizey;
-				GetGraphSize(playerGraph, &graphSizex, &graphSizey); // プレイヤー画像のサイズを取得
-				bullets.push_back(new Bullet(playerPosx + graphSizex / 2, playerPosy - 20 + graphSizey / 2));
-				break; // 一発作ったらループを強制的に終わらせる
-			}
+		// もし弾丸の数が上限に達していなければ弾丸を生成する
+		if (bullets.size() < BulletSettings::bulletLimit) {
+			int gx, gy;
+			GetGraphSize(playerGraph, &gx, &gy);
+
+			// push_backで弾丸を生成して配列に追加する
+			bullets.push_back(new Bullet(playerPosx + gx / 2, playerPosy));
 		}
 	}
 
 	// 配列の中に弾丸の更新処理と、画面外に出た時の処理
-	for (auto b = bullets.begin(); b != bullets.end();) {
-		(*b)->Update();
-		if (!(*b)->isScreen) {
-			delete (*b); // メモリを解放
-			b = bullets.erase(b); // 配列から削除
+	for (auto it = bullets.begin(); it != bullets.end();) {
+		(*it)->Update();
+
+		if((*it)->isScreen == false) {
+			delete *it; // 画面外に出た弾丸を削除する
+			it = bullets.erase(it); // 配列からも削除する
 		}
 		else {
-			++b; // 次の弾丸へ
+			++it; // 次の弾丸の処理に移る
 		}
 	}
 }
