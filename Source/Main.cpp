@@ -29,7 +29,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		ClearDrawScreen(); // 画面をまっさらに
 
 		pPlayer->Update();
-		pEnemyManager->Update(pPlayer->GetBulletArray()); // 敵全員分の更新処理
+		pEnemyManager->Update(pPlayer->GetBullets()); // 敵全員分の更新処理
 		pPlayer->Draw();
 		pEnemyManager->Draw(); // 敵全員分の描画処理
 		

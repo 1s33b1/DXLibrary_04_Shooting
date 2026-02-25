@@ -9,11 +9,6 @@ Player::Player()
 	playerPosx = 270;	playerPosy = 450;
 	moveSpeed = 8;
 	playerGraph = LoadGraph("Graph\\Combat2.png"); // メモリにプレイヤーの画像を読み込ませる
-
-	// 実行してすぐは配列の中身をすべて空にする
-	for (int i = 0; i < BulletSettings::bulletLimit; i++) {
-		bullets.push_back(nullptr);
-	}
 }
 
 // デストラクタ

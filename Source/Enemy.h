@@ -7,9 +7,10 @@ class Enemy
 public:
 	Enemy(int x,int y);
 	~Enemy();
-	void Update(Bullet* pBullet[]);
+	void Update(const std::vector<Bullet*>& playerBullets);
 	void Draw();
 	void CheckCollision(const std::vector<Bullet*>& playerBullets);
+	void Shot();
 	bool GetIsHit() { return isHit; }
 private:
 	int enemyPosx, enemyPosy; // 位置座標
@@ -18,4 +19,5 @@ private:
 	int enemySpeed; // 移動速度
 	int enemyRadius; // 敵の半径
 	bool isHit; // true:プレイヤーの弾に当たった
+	int shotTimer = 1000; // 敵が撃つときのタイマー
 };

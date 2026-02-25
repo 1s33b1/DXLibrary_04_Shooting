@@ -26,7 +26,7 @@ Enemy::~Enemy()
 }
 
 // 更新処理
-void Enemy::Update(Bullet* pBullet[])
+void Enemy::Update(const std::vector<Bullet*>& playerBullets)
 {
 	if (isHit) return;
 	enemyPosy += enemySpeed;
@@ -35,7 +35,13 @@ void Enemy::Update(Bullet* pBullet[])
 		enemySpeed = 0; // 限界のところに来た時移動を止める
 	}
 
-	CheckCollision(pBullet);
+	shotTimer--;
+	if(shotTimer <= 0) {
+		Shot();
+		shotTimer = 60 + rand() & 60; // タイマーをリセットする
+	}
+
+	CheckCollision(playerBullets);
 }
 
 // 描画処理
@@ -59,28 +65,14 @@ void Enemy::CheckCollision(const std::vector<Bullet*>& playerBullets)
 		if (bullet != nullptr) {
 			int distanceX = bullet->GetPosX() - enemyPosx;
 			int distanceY = bullet->GetPosY() - enemyPosy;
-			int Distance = (distanceX * distanceX) + (distanceY * distanceY);
-			int hitDistance = bullet->GetRadius() + enemyRadius;
+			int Distance = (distanceX * distanceX) + (distanceY * distanceY); // 弾丸と敵の距離を測るためにXとYの座標を二乗して足す
+			int hitDistance = bullet->GetRadius() + enemyRadius; // 三平方の定理の斜辺の距離を求めるために、敵の半径と弾丸の半径を足す
+
 			// 三平方の定理で当たり判定の計算を行う
 			if (Distance < (hitDistance * hitDistance)) {
 				isHit = true;
-				bullet->isScreen = false; // 弾丸が敵に当たった時に当たった弾丸を非表示にする
+				(*it)->isScreen = false; // 弾丸が敵に当たった時に当たった弾丸を非表示にする
 			}
 		}
 	}
-	//for (int i = 0; i < BulletSettings::bulletLimit; i++) {
-	//	if (pBullet[i] != nullptr) {
-	//		int distanceX = pBullet[i]->GetPosX() - enemyPosx;
-	//		int distanceY = pBullet[i]->GetPosY() - enemyPosy;
-	//		int Distance = (distanceX * distanceX) + (distanceY * distanceY);
-	//		int hitDistance = pBullet[i]->GetRadius() + enemyRadius;
-
-	//		// 三平方の定理で当たり判定の計算を行う
-	//		if (Distance < (hitDistance * hitDistance)) {
-	//			isHit = true;
-	//			pBullet[i]->isScreen = false; // 弾丸が敵に当たった時に当たった弾丸を非表示にする
-	//		}
-	//	}
-	//}
-
 }
