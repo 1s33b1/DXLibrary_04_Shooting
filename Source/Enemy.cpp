@@ -1,5 +1,6 @@
 #include "Enemy.h"
 #include "Bullet.h"
+#include "EnemyBullet.h"
 #include "DxLib.h"
 #include <vector>
 #include "../GameParameter.h"
@@ -7,6 +8,7 @@
 ///--------------------------------------------------------
 // 敵のクラス
 // 最初は上からゆっくりと登場させる感じ
+// 敵の攻撃はメソッドが実行されたときにEnemyManagerのベクター配列にEnemyBulletを追加していく感じで行う。
 
 // コンストラクタ
 Enemy::Enemy(int x, int y)
@@ -35,12 +37,16 @@ void Enemy::Update(const std::vector<Bullet*>& playerBullets)
 		enemySpeed = 0; // 限界のところに来た時移動を止める
 	}
 
-	shotTimer--;
-	if(shotTimer <= 0) {
-		Shot();
-		shotTimer = 60 + rand() & 60; // タイマーをリセットする
+	// 敵の攻撃処理
+	{
+		shotTimer--;
+		if (shotTimer <= 0) {
+			Shot();
+			shotTimer = 60 + rand() & 60; // タイマーをリセットする
+		}
 	}
 
+	// 当たり判定処理
 	CheckCollision(playerBullets);
 }
 
@@ -75,4 +81,10 @@ void Enemy::CheckCollision(const std::vector<Bullet*>& playerBullets)
 			}
 		}
 	}
+}
+
+// 敵の攻撃処理
+void Enemy::Shot()
+{
+	//if()
 }

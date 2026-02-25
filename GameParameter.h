@@ -13,4 +13,5 @@ namespace EnemySettings {
 	const int firstEnemyPosx = 100;
 	const int firstEnemyPosy = -50;
 	const int intervalSpace = 30; // “G‚Æ“G‚ð•À‚×‚é‚Æ‚«‚ÌŠÔŠu
+	const int enemyBulletLimit = 5;
 }

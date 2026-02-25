@@ -22,6 +22,7 @@ void EnemyManager::Update(const std::vector<Bullet*>& playerBullets)
 	// 敵全員分の更新処理。ゲッターメソッドで弾丸が当たったかどうかのチェックを行い、当たっていたら敵の削除を行う
 	for (auto it = enemies.begin(); it != enemies.end();) {
 		(*it)->Update(playerBullets);
+		(*it)->Shot();
 
 		if ((*it)->GetIsHit()) {
 			delete	(*it); // メモリを解放

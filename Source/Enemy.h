@@ -19,5 +19,5 @@ private:
 	int enemySpeed; // 移動速度
 	int enemyRadius; // 敵の半径
 	bool isHit; // true:プレイヤーの弾に当たった
-	int shotTimer = 1000; // 敵が撃つときのタイマー
+	int shotTimer = 1000; // 敵が最初の弾を撃つときのタイマー
 };
