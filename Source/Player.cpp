@@ -8,6 +8,8 @@ Player::Player()
 {
 	playerPosx = 270;	playerPosy = 450;
 	moveSpeed = 8;
+	isHit = false;
+	GetGraphSize(playerGraph, &graphWidth, &graphHeight);
 	playerGraph = LoadGraph("Graph\\Combat2.png"); // ƒƒ‚ƒŠ‚ÉƒvƒŒƒCƒ„[‚Ì‰æ‘œ‚ğ“Ç‚İ‚Ü‚¹‚é
 }
 
@@ -22,7 +24,7 @@ Player::~Player()
 }
 
 // XVˆ—
-void Player::Update()
+void Player::Update(const std::vector<EnemyBullet*>& enemyBullets)
 {
 	if (CheckHitKey(KEY_INPUT_LEFT) || CheckHitKey(KEY_INPUT_A)) {
 		playerPosx -= moveSpeed;
@@ -61,12 +63,19 @@ void Player::Update()
 			++it; // Ÿ‚Ì’eŠÛ‚Ìˆ—‚ÉˆÚ‚é
 		}
 	}
+
+	CheckCollision(enemyBullets); // “G‚Ì’eŠÛ‚Æ‚Ì“–‚½‚è”»’è
 }
 
 // •`‰æˆ—
 void Player::Draw()
 {
-	DrawGraph(playerPosx, playerPosy, playerGraph, FALSE); // ƒvƒŒƒCƒ„[‚Ì•`‰æ
+	if (isHit) {
+		DrawRotaGraph(playerPosx, playerPosy, 1.0, 3.14 / 180 * 90, playerGraph, FALSE, FALSE);
+	}
+	else {
+		DrawGraph(playerPosx, playerPosy, playerGraph, FALSE); // ƒvƒŒƒCƒ„[‚Ì•`‰æ
+	}
 
 	// ’eŠÛ‚Ì•`‰æ
 	for(Bullet* b : bullets) {
@@ -74,4 +83,25 @@ void Player::Draw()
 			b->Draw();
 		}
 	}
+}
+
+void Player::CheckCollision(const std::vector<EnemyBullet*>& enemyBullets)
+{
+	// ”z—ñ‚Ì’†‚É’eŠÛ‚Ì“–‚½‚è”»’è‚Ìˆ—
+	for (auto it = enemyBullets.begin(); it != enemyBullets.end(); ++it) {
+		EnemyBullet* bullet = *it;
+		if (bullet != nullptr) {
+			int distanceX = bullet->GetPosX() - playerPosx;
+			int distanceY = bullet->GetPosY() - playerPosy;
+			int Distance = (distanceX * distanceX) + (distanceY * distanceY); // ’eŠÛ‚Æ“G‚Ì‹——£‚ğ‘ª‚é‚½‚ß‚ÉX‚ÆY‚ÌÀ•W‚ğ“ñæ‚µ‚Ä‘«‚·
+			int hitDistance = bullet->GetRadius() + (graphWidth / 2); // O•½•û‚Ì’è—‚ÌÎ•Ó‚Ì‹——£‚ğ‹‚ß‚é‚½‚ß‚ÉA“G‚Ì”¼Œa‚Æ’eŠÛ‚Ì”¼Œa‚ğ‘«‚·
+
+			// O•½•û‚Ì’è—‚Å“–‚½‚è”»’è‚ÌŒvZ‚ğs‚¤
+			if (Distance < (hitDistance * hitDistance)) {
+				isHit = true;
+				(*it)->isScreen = false; // ’eŠÛ‚ª“G‚É“–‚½‚Á‚½‚É“–‚½‚Á‚½’eŠÛ‚ğ”ñ•\¦‚É‚·‚é
+			}
+		}
+	}
+
 }

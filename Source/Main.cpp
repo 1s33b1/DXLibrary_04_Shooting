@@ -8,6 +8,7 @@
 /// シューティング
 /// 作成日：2026/2/20
 /// メイン関数
+/// 今はプレイヤーの当たり判定を行うのを実装途中
 /// </summary>
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -28,7 +29,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	{
 		ClearDrawScreen(); // 画面をまっさらに
 
-		pPlayer->Update();
+		pPlayer->Update(pEnemyManager->GetEnemyBullets());
 		pEnemyManager->Update(pPlayer->GetBullets()); // 敵全員分の更新処理
 		pPlayer->Draw();
 		pEnemyManager->Draw(); // 敵全員分の描画処理

@@ -1,6 +1,8 @@
 #include "EnemyManager.h"
+#include "EnemyBullet.h"
 #include "Bullet.h"
 
+std::vector<EnemyBullet*> EnemyManager::enemyBullets; // 敵の弾丸を管理するベクター配列
 // コンストラクタ：生成処理
 EnemyManager::EnemyManager()
 {
@@ -10,10 +12,17 @@ EnemyManager::EnemyManager()
 // デストラクタ：削除処理
 EnemyManager::~EnemyManager()
 {
+	// 敵の削除処理
 	for (Enemy* e : enemies) {
 		delete e;
 	}
 	enemies.clear(); // 中身を空にする
+
+	// 敵の弾丸の削除処理
+	for (EnemyBullet* eb : enemyBullets) {
+		delete eb;
+	}
+	enemyBullets.clear(); // 中身を空にする
 }
 
 // 更新処理
@@ -22,7 +31,6 @@ void EnemyManager::Update(const std::vector<Bullet*>& playerBullets)
 	// 敵全員分の更新処理。ゲッターメソッドで弾丸が当たったかどうかのチェックを行い、当たっていたら敵の削除を行う
 	for (auto it = enemies.begin(); it != enemies.end();) {
 		(*it)->Update(playerBullets);
-		(*it)->Shot();
 
 		if ((*it)->GetIsHit()) {
 			delete	(*it); // メモリを解放
@@ -30,6 +38,19 @@ void EnemyManager::Update(const std::vector<Bullet*>& playerBullets)
 		}
 		else {
 			++it;
+		}
+	}
+
+	// 敵の弾丸すべての更新処理と画面外に出たときにフラグを降ろす処理
+	for (auto it = enemyBullets.begin(); it != enemyBullets.end();) {
+		(*it)->Update();
+
+		if ((*it)->isScreen == false) {
+			delete (*it); // フラグが降りたときにメモリを解放する
+			it = enemyBullets.erase(it); // 配列からも削除する
+		}
+		else {
+			++it; // 次の要素に進む
 		}
 	}
 
@@ -49,6 +70,10 @@ void EnemyManager::Draw()
 {
 	for (Enemy* e : enemies) {
 		e->Draw();
+	}
+
+	for(EnemyBullet* eb:enemyBullets) {
+		eb->Draw();
 	}
 }
 

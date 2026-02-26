@@ -3,6 +3,7 @@
 #include "EnemyBullet.h"
 #include "DxLib.h"
 #include <vector>
+#include "EnemyManager.h"
 #include "../GameParameter.h"
 
 ///--------------------------------------------------------
@@ -86,5 +87,7 @@ void Enemy::CheckCollision(const std::vector<Bullet*>& playerBullets)
 // 敵の攻撃処理
 void Enemy::Shot()
 {
-	//if()
+	// ここで生成した後にEnemyManagerのベクター配列に追加する
+	EnemyBullet* enemyBullet = new EnemyBullet(enemyPosx, enemyPosy); // 敵の弾丸を生成
+	EnemyManager::AddEnemyBullet(enemyBullet); // 敵の弾丸をEnemyManagerのベクター配列に追加する
 }
