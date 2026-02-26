@@ -32,13 +32,13 @@ void EnemyBullet::Update()
 	}
 
 	// ‰æ–Ê“à‚É‘¶İ‚µ‚Ä‚¢‚é‚Æ‚«‚Íƒtƒ‰ƒO‚ğ—§‚Ä‚Ä‚¨‚­
-	if (bulletPosx <= ScreenSettings::screenWidth &&
-		bulletPosx >= 0 &&
-		bulletPosy <= ScreenSettings::screenHeight &&
-		bulletPosy >= 0)
-	{
-		isScreen = true;
-	}
+	//if (bulletPosx <= ScreenSettings::screenWidth &&
+	//	bulletPosx >= 0 &&
+	//	bulletPosy <= ScreenSettings::screenHeight &&
+	//	bulletPosy >= 0)
+	//{
+	//	isScreen = true;
+	//}
 
 }
 

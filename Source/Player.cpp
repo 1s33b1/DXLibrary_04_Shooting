@@ -9,8 +9,8 @@ Player::Player()
 	playerPosx = 270;	playerPosy = 450;
 	moveSpeed = 8;
 	isHit = false;
-	GetGraphSize(playerGraph, &graphWidth, &graphHeight);
 	playerGraph = LoadGraph("Graph\\Combat2.png"); // メモリにプレイヤーの画像を読み込ませる
+	GetGraphSize(playerGraph, &graphWidth, &graphHeight);
 }
 
 // デストラクタ
@@ -74,7 +74,7 @@ void Player::Draw()
 		DrawRotaGraph(playerPosx, playerPosy, 1.0, 3.14 / 180 * 90, playerGraph, FALSE, FALSE);
 	}
 	else {
-		DrawGraph(playerPosx, playerPosy, playerGraph, FALSE); // プレイヤーの描画
+		DrawRotaGraph(playerPosx, playerPosy, 1.0, 3.14 / 180 * 1, playerGraph, FALSE, FALSE);
 	}
 
 	// 弾丸の描画
@@ -91,8 +91,8 @@ void Player::CheckCollision(const std::vector<EnemyBullet*>& enemyBullets)
 	for (auto it = enemyBullets.begin(); it != enemyBullets.end(); ++it) {
 		EnemyBullet* bullet = *it;
 		if (bullet != nullptr) {
-			int distanceX = bullet->GetPosX() - playerPosx;
-			int distanceY = bullet->GetPosY() - playerPosy;
+			int distanceX = bullet->GetPosX() - (playerPosx + (graphWidth / 2));
+			int distanceY = bullet->GetPosY() - (playerPosy + (graphHeight / 2));
 			int Distance = (distanceX * distanceX) + (distanceY * distanceY); // 弾丸と敵の距離を測るためにXとYの座標を二乗して足す
 			int hitDistance = bullet->GetRadius() + (graphWidth / 2); // 三平方の定理の斜辺の距離を求めるために、敵の半径と弾丸の半径を足す
 
