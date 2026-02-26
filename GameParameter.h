@@ -15,3 +15,7 @@ namespace EnemySettings {
 	const int intervalSpace = 30; // “G‚Æ“G‚ğ•À‚×‚é‚Æ‚«‚ÌŠÔŠu
 	const int enemyBulletLimit = 5;
 }
+
+namespace ExplosionSettings {
+	const int divisionNum = 11; // ‰æ‘œ‚ğ•ªŠ„‚·‚é‚Æ‚«‚ÌŒÂ”B
+}

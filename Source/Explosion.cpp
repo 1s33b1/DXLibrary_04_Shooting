@@ -10,9 +10,6 @@ Explosion::Explosion(int x, int y)
 	isfinished(false),
 	timer(0)
 {
-	LoadDivGraph("Graph\\Explosion.png", 
-		          ExplosionSettings::divisionNum,
-				  8, 2, 768, 192, graph);
 }
 Explosion::~Explosion()
 {
@@ -32,5 +29,8 @@ void Explosion::Update()
 }
 void Explosion::Draw()
 {
-	DrawGraph(explosionPosx, explosionPosy, graph[animationFrame], TRUE);
+	if (!isfinished)
+	{
+		DrawGraph(explosionPosx, explosionPosy, graph[animationFrame], TRUE);
+	}
 }

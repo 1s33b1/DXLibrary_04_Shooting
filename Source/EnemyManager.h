@@ -2,6 +2,7 @@
 #include "Enemy.h"
 #include "../GameParameter.h"
 #include <vector>
+class Explosion;
 class Bullet;
 class EnemyBullet;
 
@@ -18,4 +19,5 @@ public:
 private:
 	std::vector<Enemy*> enemies; // 固定配列からvectorに変更。vectorだと可変のリストを使用することができる。
 	static std::vector<EnemyBullet*> enemyBullets; // 敵の弾丸を管理するベクター配列
+	std::vector<Explosion*> explosions; // 爆発を管理するベクター配列
 };

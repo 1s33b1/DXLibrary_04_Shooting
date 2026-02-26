@@ -2,11 +2,16 @@
 #include "EnemyBullet.h"
 #include "Explosion.h"
 #include "Bullet.h"
+#include "DxLib.h"
 
 std::vector<EnemyBullet*> EnemyManager::enemyBullets; // 敵の弾丸を管理するベクター配列
 // コンストラクタ：生成処理
 EnemyManager::EnemyManager()
 {
+	LoadDivGraph("Graph\\Explosion.png",
+		ExplosionSettings::divisionNum,
+		8, 2, 768, 192,Explosion::graph);
+
 	SpawnEnemies();
 }
 
@@ -34,14 +39,9 @@ void EnemyManager::Update(const std::vector<Bullet*>& playerBullets)
 		(*it)->Update(playerBullets);
 
 		if ((*it)->GetIsHit()) {
-			Explosion* explosion = new Explosion((*it)->GetPosX(), (*it)->GetPosY()); // 敵が当たったときに爆発を生成する
-			explosion->Update(); // 爆発の更新処理
-			explosion->Draw(); // 爆発の描画処理
-			if (explosion->isFinished()) {
-				delete	(*it); // メモリを解放
-				it = enemies.erase(it);
-				delete explosion; // 爆発のメモリを解放
-			}
+			explosions.push_back(new Explosion((*it)->GetPosX(), (*it)->GetPosY())); // 敵が当たったときに爆発を生成する)
+			delete	(*it); // メモリを解放
+			it = enemies.erase(it);
 		}
 		else {
 			++it;
@@ -58,6 +58,18 @@ void EnemyManager::Update(const std::vector<Bullet*>& playerBullets)
 		}
 		else {
 			++it; // 次の要素に進む
+		}
+	}
+
+	// 爆発の更新処理とアニメーションが終了したときの削除処理
+	for (auto it = explosions.begin(); it != explosions.end();) {
+		(*it)->Update();
+		if ((*it)->isFinished()) {
+			delete(*it);
+			it = explosions.erase(it);
+		}
+		else {
+			++it;
 		}
 	}
 
@@ -81,6 +93,10 @@ void EnemyManager::Draw()
 
 	for(EnemyBullet* eb:enemyBullets) {
 		eb->Draw();
+	}
+
+	for (Explosion* ex : explosions) {
+		ex->Draw();
 	}
 }
 
