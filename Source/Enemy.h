@@ -11,6 +11,8 @@ public:
 	void Draw();
 	void CheckCollision(const std::vector<Bullet*>& playerBullets);
 	void Shot();
+	int GetPosX() const { return enemyPosx; }
+	int GetPosY() const { return enemyPosy; }
 	bool GetIsHit() { return isHit; }
 private:
 	int enemyPosx, enemyPosy; // à íuç¿ïW

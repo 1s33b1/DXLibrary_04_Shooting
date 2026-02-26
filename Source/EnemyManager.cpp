@@ -1,5 +1,6 @@
 #include "EnemyManager.h"
 #include "EnemyBullet.h"
+#include "Explosion.h"
 #include "Bullet.h"
 
 std::vector<EnemyBullet*> EnemyManager::enemyBullets; // 敵の弾丸を管理するベクター配列
@@ -33,8 +34,14 @@ void EnemyManager::Update(const std::vector<Bullet*>& playerBullets)
 		(*it)->Update(playerBullets);
 
 		if ((*it)->GetIsHit()) {
-			delete	(*it); // メモリを解放
-			it = enemies.erase(it);
+			Explosion* explosion = new Explosion((*it)->GetPosX(), (*it)->GetPosY()); // 敵が当たったときに爆発を生成する
+			explosion->Update(); // 爆発の更新処理
+			explosion->Draw(); // 爆発の描画処理
+			if (explosion->isFinished()) {
+				delete	(*it); // メモリを解放
+				it = enemies.erase(it);
+				delete explosion; // 爆発のメモリを解放
+			}
 		}
 		else {
 			++it;

@@ -26,15 +26,6 @@ void Bullet::Update()
 	if (bulletPosy < -50) {
 		isScreen = false; // 画面外に出たときフラグを降ろす
 	}
-
-	// 画面内に存在しているときはフラグを立てておく
-	//if (bulletPosx <= ScreenSettings::screenWidth &&
-	//	bulletPosx >= 0 &&
-	//	bulletPosy <= ScreenSettings::screenHeight &&
-	//	bulletPosy >= 0)
-	//{
-	//	isScreen = true;
-	//}
 }
 
 // 描画処理
